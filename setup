@@ -48,6 +48,11 @@ setup_pi() {
 
 main() {
     sudo -v
+    while true; do
+        sudo -n true
+        sleep 50
+    done 2>/dev/null &
+
     choose_machine
     bootstrap_secrets
 
