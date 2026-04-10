@@ -2,6 +2,12 @@
 
 blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
 
+### Usage
+
+```sh
+curl -sSL https://raw.githubusercontent.com/jb49088/setup_script/master/setup | bash
+```
+
 <!-- CODE_STATISTICS_START -->
 
 ### Code Statistics
@@ -11,11 +17,11 @@ blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah 
 Language                      files          blank        comment           code
 --------------------------------------------------------------------------------
 Text                              4              0              0            162
+Bourne Again Shell                1             10              3             48
+Markdown                          1             12              4             36
 JSON                              1              0              0             33
-Bourne Again Shell                1              7              3             30
-Markdown                          1              8              4             30
 --------------------------------------------------------------------------------
-SUM:                              7             15              7            255
+SUM:                              7             22              7            279
 --------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->
