@@ -7,15 +7,16 @@ blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah 
 ### Code Statistics
 
 ```
--------------------------------------------------------------------------------
-Language                     files          blank        comment           code
--------------------------------------------------------------------------------
-Text                             4              0              0            162
-JSON                             1              0              0             33
-Markdown                         1              8              4             16
--------------------------------------------------------------------------------
-SUM:                             6              8              4            211
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Language                      files          blank        comment           code
+--------------------------------------------------------------------------------
+Text                              4              0              0            162
+JSON                              1              0              0             33
+Bourne Again Shell                1              7              3             30
+Markdown                          1              8              4             30
+--------------------------------------------------------------------------------
+SUM:                              7             15              7            255
+--------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->
 
@@ -24,7 +25,7 @@ SUM:                             6              8              4            211
 ### Project Structure
 
 ```
-post_install_script
+setup_script
 ├── packages
 │   ├── kali
 │   │   └── apt.txt
@@ -35,8 +36,9 @@ post_install_script
 │   └── wsl
 │       ├── npm.txt
 │       └── yay.txt
-└── README.md
+├── README.md
+└── setup
 
-6 directories, 6 files
+6 directories, 7 files
 ```
 <!-- PROJECT_STRUCTURE_END -->

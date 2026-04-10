@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# ================================================================================
+# =                                    SETUP                                     =
+# ================================================================================
+
+choose_machine() {
+    while true; do
+        read -r -p "Select machine [wsl/pi]: " MACHINE
+        case "$MACHINE" in
+            wsl | pi) break ;;
+            *) echo "Invalid option." ;;
+        esac
+    done
+}
+
+bootstrap_secrets() {
+    while true; do
+        read -r -s -p "Enter your Restic password: " RESTIC_PASSWORD
+        read -r -s -p "Enter your B2 account ID: " B2_ACCOUNT_ID
+        read -r -s -p "Enter your B2 account key: " B2_ACCOUNT_KEY
+    done
+}
+
+setup_wsl() {
+    echo "Hello from wsl"
+}
+
+setup_pi() {
+    echo "Hello from pi"
+}
+
+main() {
+    case "$MACHINE" in
+        wsl) setup_wsl ;;
+        pi) setup_pi ;;
+    esac
+}
+
+main
