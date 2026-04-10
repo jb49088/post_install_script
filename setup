@@ -24,7 +24,7 @@ bootstrap_secrets() {
 }
 
 bootstrap_yay() {
-    sudo pacman --sync --noconfirm git base-devel
+    sudo pacman -S --noconfirm git base-devel
     git clone https://aur.archlinux.org/yay.git
     (cd yay && makepkg --syncdeps --install --noconfirm)
     rm -rf yay
@@ -35,9 +35,9 @@ restore_from_restic() {
 }
 
 setup_wsl() {
-    sudo pacman --sync --refresh --upgrades --noconfirm
+    sudo pacman -Syu --noconfirm
     bootstrap_yay
-    yay --sync --noconfirm - < <(curl --silent --show-error --location \
+    yay -S --noconfirm - < <(curl --silent --show-error --location \
         https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt)
     restore_from_restic
 }
@@ -47,7 +47,7 @@ setup_pi() {
 }
 
 main() {
-    sudo --validate
+    sudo -v
     choose_machine
     bootstrap_secrets
     case "$MACHINE" in
