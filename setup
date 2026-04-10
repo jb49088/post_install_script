@@ -47,12 +47,6 @@ setup_pi() {
 }
 
 main() {
-    # If piped to bash, re-execute as an interactive script to support read prompts
-    if [[ "$0" == "bash" ]]; then
-        exec bash <(curl --silent --show-error --location \
-            https://raw.githubusercontent.com/jb49088/setup_script/master/setup)
-    fi
-
     sudo -v
     choose_machine
     bootstrap_secrets
