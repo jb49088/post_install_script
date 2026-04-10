@@ -10,7 +10,11 @@ blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah 
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-Markdown                         1              7              4              4
+Text                             4              0              0            162
+JSON                             1              0              0             33
+Markdown                         1              8              4             16
+-------------------------------------------------------------------------------
+SUM:                             6              8              4            211
 -------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->
@@ -21,8 +25,18 @@ Markdown                         1              7              4              4
 
 ```
 post_install_script
+├── packages
+│   ├── kali
+│   │   └── apt.txt
+│   ├── pi
+│   │   └── apt.txt
+│   ├── windows
+│   │   └── winget.json
+│   └── wsl
+│       ├── npm.txt
+│       └── yay.txt
 └── README.md
 
-1 directory, 1 file
+6 directories, 6 files
 ```
 <!-- PROJECT_STRUCTURE_END -->

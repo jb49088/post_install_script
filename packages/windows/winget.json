@@ -1,0 +1,33 @@
+{
+  "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+  "CreationDate": "2026-04-10T10:42:24.327-00:00",
+  "Sources": [
+    {
+      "Packages": [
+        { "PackageIdentifier": "7zip.7zip" },
+        { "PackageIdentifier": "CrystalDewWorld.CrystalDiskInfo" },
+        { "PackageIdentifier": "Streamlink.Streamlink" },
+        { "PackageIdentifier": "VideoLAN.VLC" },
+        { "PackageIdentifier": "marha.VcXsrv" },
+        { "PackageIdentifier": "Oracle.VirtualBox" },
+        { "PackageIdentifier": "OBSProject.OBSStudio" },
+        { "PackageIdentifier": "Valve.Steam" },
+        { "PackageIdentifier": "WiresharkFoundation.Wireshark" },
+        { "PackageIdentifier": "Discord.Discord" },
+        { "PackageIdentifier": "Insynchq.Insync" },
+        { "PackageIdentifier": "Microsoft.VisualStudioCode" },
+        { "PackageIdentifier": "Microsoft.PowerToys" },
+        { "PackageIdentifier": "Microsoft.PowerShell" },
+        { "PackageIdentifier": "Microsoft.WindowsTerminal" },
+        { "PackageIdentifier": "Microsoft.WSL" }
+      ],
+      "SourceDetails": {
+        "Argument": "https://cdn.winget.microsoft.com/cache",
+        "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+        "Name": "winget",
+        "Type": "Microsoft.PreIndexed.Package"
+      }
+    }
+  ],
+  "WinGetVersion": "1.28.220"
+}
