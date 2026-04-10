@@ -17,12 +17,10 @@ choose_machine() {
 }
 
 bootstrap_secrets() {
-    while true; do
-        read -r -p "Enter Restic repository: " RESTIC_REPOSITORY
-        read -r -p "Enter Restic password: " RESTIC_PASSWORD
-        read -r -p "Enter B2 account ID: " B2_ACCOUNT_ID
-        read -r -p "Enter B2 account key: " B2_ACCOUNT_KEY
-    done
+    read -r -p "Enter Restic repository: " RESTIC_REPOSITORY
+    read -r -p "Enter Restic password: " RESTIC_PASSWORD
+    read -r -p "Enter B2 account ID: " B2_ACCOUNT_ID
+    read -r -p "Enter B2 account key: " B2_ACCOUNT_KEY
 }
 
 bootstrap_yay() {
