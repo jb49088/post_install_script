@@ -53,7 +53,7 @@ main() {
             https://raw.githubusercontent.com/jb49088/setup_script/master/setup)
     fi
 
-    sudo --verbose
+    sudo -v
     choose_machine
     bootstrap_secrets
 
