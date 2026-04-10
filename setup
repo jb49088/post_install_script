@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-choose_machine() {
+select_machine() {
     while true; do
         read -r -p "Select machine [wsl/pi]: " MACHINE
         case "$MACHINE" in
@@ -16,11 +16,19 @@ choose_machine() {
     done
 }
 
-bootstrap_secrets() {
-    read -r -p "Enter Restic repository: " RESTIC_REPOSITORY
-    read -r -p "Enter Restic password: " RESTIC_PASSWORD
-    read -r -p "Enter B2 account ID: " B2_ACCOUNT_ID
-    read -r -p "Enter B2 account key: " B2_ACCOUNT_KEY
+prompt_for_secrets() {
+    export RESTIC_REPOSITORY RESTIC_PASSWORD B2_ACCOUNT_ID B2_ACCOUNT_KEY
+
+    while true; do
+        read -r -p "Enter Restic repository: " RESTIC_REPOSITORY
+        read -r -p "Enter Restic password: " RESTIC_PASSWORD
+        read -r -p "Enter B2 account ID: " B2_ACCOUNT_ID
+        read -r -p "Enter B2 account key: " B2_ACCOUNT_KEY
+
+        restic snapshots &>/dev/null && return
+
+        echo "Invalid credentials"
+    done
 }
 
 bootstrap_yay() {
@@ -30,15 +38,24 @@ bootstrap_yay() {
     rm -rf yay
 }
 
+install_packages() {
+    yay -S --noconfirm - < <(curl --silent --show-error --location \
+        https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt)
+}
+
+update_system() {
+    sudo pacman -Syu --noconfirm
+}
+
 restore_from_restic() {
     :
 }
 
 setup_wsl() {
-    sudo pacman -Syu --noconfirm
+    update_system
     bootstrap_yay
-    yay -S --noconfirm - < <(curl --silent --show-error --location \
-        https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt)
+    install_packages
+    prompt_for_secrets
     restore_from_restic
 }
 
@@ -47,8 +64,7 @@ setup_pi() {
 }
 
 main() {
-    choose_machine
-    bootstrap_secrets
+    select_machine
 
     case "$MACHINE" in
         wsl) setup_wsl ;;
