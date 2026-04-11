@@ -58,7 +58,11 @@ update_system() {
 }
 
 restore_from_restic() {
-    :
+    local tags=("bash" "databases" "direnv" "helix" "history" "kakoune" "nftables" "nvim" "powershell" "python" "sql" "sqliterc" "ssh" "vault" "wsl" "wt" "zellij" "zsh")
+
+    for tag in "${tags[@]}"; do
+        restic restore latest --tag "$tag" --host "$1" --target / 2>/dev/null || true
+    done
 }
 
 setup_wsl() {
@@ -66,7 +70,7 @@ setup_wsl() {
     bootstrap_yay
     install_packages "$MACHINE"
     prompt_for_secrets
-    restore_from_restic
+    restore_from_restic "$MACHINE"
 }
 
 setup_pi() {
