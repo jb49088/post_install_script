@@ -46,7 +46,7 @@ install_packages() {
 
         pi) curl --silent --show-error --location \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
-            | xargs sudo apt install -yes ;;
+            | xargs sudo apt install --yes ;;
     esac
 }
 
