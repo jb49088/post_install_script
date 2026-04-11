@@ -58,7 +58,7 @@ update_system() {
 }
 
 restore_from_restic() {
-    local tags=("bash" "databases" "direnv" "helix" "history" "kakoune" "nftables" "nvim" "powershell" "python" "sql" "sqliterc" "ssh" "vault" "wsl" "wt" "zellij" "zsh")
+    local tags=("bash" "databases" "direnv" "dotfiles" "helix" "history" "kakoune" "nftables" "nvim" "powershell" "python" "sql" "sqliterc" "ssh" "vault" "wsl" "wt" "zellij" "zsh")
 
     for tag in "${tags[@]}"; do
         restic restore latest --tag "$tag" --host "$1" --target / 2>/dev/null || true
