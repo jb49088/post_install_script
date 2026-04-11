@@ -76,6 +76,11 @@ setup_venvs() {
     done
 }
 
+setup_zsa_qmk_firmware() {
+    git clone https://github.com/zsa/qmk_firmware.git "$HOME/zsa_qmk_firmware"
+    (cd ~/zsa_qmk_firmware && git submodule update --init --recursive)
+}
+
 setup_services() {
     sudo systemctl enable --now sshd
     sudo systemctl enable --now nftables
@@ -91,6 +96,7 @@ setup_wsl() {
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_venvs
+    setup_zsa_qmk_firmware
     setup_services "$MACHINE"
 }
 
