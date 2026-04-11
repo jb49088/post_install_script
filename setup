@@ -76,6 +76,14 @@ setup_venvs() {
     done
 }
 
+setup_services() {
+    sudo systemctl enable --now sshd
+    sudo systemctl enable --now nftables
+    if [[ "$1" == "pi" ]]; then
+        "Do this later"
+    fi
+}
+
 setup_wsl() {
     update_system "$MACHINE"
     bootstrap_yay
@@ -83,6 +91,7 @@ setup_wsl() {
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_venvs
+    setup_services "$MACHINE"
 }
 
 setup_pi() {
