@@ -38,6 +38,10 @@ bootstrap_yay() {
     rm -rf yay
 }
 
+setup_jellyfin_repo() {
+    curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+}
+
 install_packages() {
     case "$1" in
         wsl) curl --silent --show-error --location \
@@ -103,6 +107,7 @@ setup_wsl() {
 
 setup_pi() {
     update_system "$MACHINE"
+    setup_jellyfin_repo
     install_packages "$MACHINE"
     prompt_for_secrets
     restore_from_restic "$MACHINE"
