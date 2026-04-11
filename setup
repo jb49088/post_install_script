@@ -8,7 +8,7 @@ set -euo pipefail
 
 select_machine() {
     while true; do
-        read -r -p "Select machine [wsl/pi]: " MACHINE >&2
+        read -r -p "Select machine [wsl/pi]: " MACHINE
         case "$MACHINE" in
             wsl | pi) break ;;
             *) echo "Invalid option" >&2 ;;
@@ -20,10 +20,10 @@ prompt_for_secrets() {
     export RESTIC_REPOSITORY RESTIC_PASSWORD B2_ACCOUNT_ID B2_ACCOUNT_KEY
 
     while true; do
-        read -r -p "Enter Restic repository: " RESTIC_REPOSITORY >&2
-        read -r -p "Enter Restic password: " RESTIC_PASSWORD >&2
-        read -r -p "Enter B2 account ID: " B2_ACCOUNT_ID >&2
-        read -r -p "Enter B2 account key: " B2_ACCOUNT_KEY >&2
+        read -r -p "Enter Restic repository: " RESTIC_REPOSITORY
+        read -r -p "Enter Restic password: " RESTIC_PASSWORD
+        read -r -p "Enter B2 account ID: " B2_ACCOUNT_ID
+        read -r -p "Enter B2 account key: " B2_ACCOUNT_KEY
 
         restic snapshots &>/dev/null && return
 
