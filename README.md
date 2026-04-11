@@ -17,11 +17,11 @@ bash <(curl -sSL https://raw.githubusercontent.com/jb49088/setup_script/master/s
 Language                      files          blank        comment           code
 --------------------------------------------------------------------------------
 Text                              4              0              0            160
-Bourne Again Shell                1             24              3             97
+Bourne Again Shell                1             25              3             97
 Markdown                          1             10              4             36
 JSON                              1              0              0             33
 --------------------------------------------------------------------------------
-SUM:                              7             34              7            326
+SUM:                              7             35              7            326
 --------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->

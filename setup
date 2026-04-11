@@ -85,6 +85,7 @@ setup_zsa_qmk_firmware() {
 setup_services() {
     sudo systemctl enable --now sshd
     sudo systemctl enable --now nftables
+
     if [[ "$1" == "pi" ]]; then
         curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
     fi
