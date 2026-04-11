@@ -71,7 +71,7 @@ setup_venvs() {
     local projects=("alien_invasion" "data_visualization" "fish_tank" "infosec_forum" "ping" "port_scanner" "riven_sniper" "wfm")
 
     for project in "${projects[@]}"; do
-        uv venv "$HOME/venvs/$project" --python 3.13 # Pin to stable for pre-built wheels
+        uv venv "$HOME/venvs/$project" --python 3.13 # Pin version for pre-built wheels
         uv pip install --requirement "$HOME/python/projects/$project/requirements.txt" --python "$HOME/venvs/$project"
     done
 }
