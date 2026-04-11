@@ -6,7 +6,6 @@ ffmpeg
 build-essential
 git
 htop
-jellyfin-server
 jq
 less
 lm-sensors
