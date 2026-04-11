@@ -104,11 +104,11 @@ setup_wsl() {
 
 setup_pi() {
     update_system "$MACHINE"
-    setup_jellyfin_repo
     install_packages "$MACHINE"
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_venvs
+    setup_services "$MACHINE"
 }
 
 main() {
