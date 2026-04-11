@@ -65,6 +65,17 @@ restore_from_restic() {
     done
 }
 
+setup_venvs() {
+    mkdir "$HOME/venvs"
+
+    local projects=("alien_invasion" "data_visualization" "fish_tank" "infosec_forum" "ping" "port_scanner" "riven_sniper" "wfm")
+
+    for project in "${projects[@]}"; do
+        uv venv "$HOME/venvs/$project"
+        uv pip install --requirement "$HOME/python/projects/$project/requirements.txt" --python "$HOME/venvs/$project"
+    done
+}
+
 setup_wsl() {
     update_system "$MACHINE"
     bootstrap_yay
