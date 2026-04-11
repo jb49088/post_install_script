@@ -38,10 +38,6 @@ bootstrap_yay() {
     rm -rf yay
 }
 
-setup_jellyfin_repo() {
-    curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
-}
-
 install_packages() {
     case "$1" in
         wsl) curl --silent --show-error --location \
@@ -90,7 +86,7 @@ setup_services() {
     sudo systemctl enable --now sshd
     sudo systemctl enable --now nftables
     if [[ "$1" == "pi" ]]; then
-        "Do this later"
+        curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
     fi
 }
 
