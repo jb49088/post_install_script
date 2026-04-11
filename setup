@@ -39,12 +39,22 @@ bootstrap_yay() {
 }
 
 install_packages() {
-    yay -S --noconfirm - < <(curl --silent --show-error --location \
-        https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt)
+    case "$1" in
+        wsl) curl --silent --show-error --location \
+            https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt \
+            | xargs yay -S --noconfirm ;;
+
+        pi) curl --silent --show-error --location \
+            https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
+            | xargs sudo apt install -yes ;;
+    esac
 }
 
 update_system() {
-    sudo pacman -Syu --noconfirm
+    case "$1" in
+        wsl) sudo pacman -Syu --noconfirm ;;
+        pi) sudo apt update && sudo apt upgrade --yes ;;
+    esac
 }
 
 restore_from_restic() {
@@ -52,9 +62,9 @@ restore_from_restic() {
 }
 
 setup_wsl() {
-    update_system
+    update_system "$MACHINE"
     bootstrap_yay
-    install_packages
+    install_packages "$MACHINE"
     prompt_for_secrets
     restore_from_restic
 }
