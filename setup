@@ -84,6 +84,8 @@ main() {
         wsl) setup_wsl ;;
         pi) setup_pi ;;
     esac
+
+    exec zsh
 }
 
 main
