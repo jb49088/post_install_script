@@ -10,7 +10,7 @@ select_machine() {
     while true; do
         read -r -p "Select machine [wsl/pi]: " MACHINE
         case "$MACHINE" in
-            wsl | pi) break ;;
+            wsl | pi) return ;;
             *) echo "Invalid option" >&2 ;;
         esac
     done
@@ -35,7 +35,7 @@ bootstrap_yay() {
     sudo pacman -S --noconfirm git base-devel
     git clone https://aur.archlinux.org/yay.git
     (cd yay && makepkg --syncdeps --install --noconfirm)
-    rm -rf yay
+    rm --recursive --force yay
 }
 
 install_packages() {
