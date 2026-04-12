@@ -75,7 +75,7 @@ restore_from_restic() {
 
     for tag in "${tags[@]}"; do
         local cmd="restic"
-        [[ "$tag" == "services" || "$tag" == "nftables" ]] && cmd="sudo restic"
+        [[ "$tag" == "services" || "$tag" == "nftables" ]] && cmd="sudo --preserve-env restic"
         $cmd restore latest --tag "$tag" --host "$1" --target / 2>/dev/null || true
     done
 }
