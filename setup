@@ -40,14 +40,23 @@ bootstrap_yay() {
 
 install_packages() {
     case "$1" in
-        wsl) curl --silent --show-error --location \
+        wsl) curl --silent --show-error --location --fail \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt \
             | xargs yay -S --noconfirm ;;
 
-        pi) curl --silent --show-error --location \
+        pi) curl --silent --show-error --location --fail \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
             | xargs sudo apt install --yes ;;
     esac
+}
+
+install_neovim() {
+    curl --silent --show-error --location --fail \
+        https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz \
+        | gzip --decompress --stdout \
+        | sudo tar --extract --file=- --directory=/opt
+
+    sudo ln --symbolic "/opt/nvim-linux-arm64/bin/nvim" "/usr/local/bin/nvim"
 }
 
 update_system() {
@@ -89,7 +98,7 @@ setup_zsa_qmk_firmware() {
 
 setup_jellyfin() {
     sudo mkdir -p /srv/jellyfin/{movies,shows,educational}
-    curl --silent https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+    curl --silent --show-error --location --fail https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 }
 
 setup_services() {
@@ -101,7 +110,7 @@ setup_services() {
             ;;
         pi)
             sudo systemctl enable --now ssh
-            curl --silent --show-error --location https://install.pi-hole.net | bash
+            curl --silent --show-error --location --fail https://install.pi-hole.net | bash
             setup_jellyfin
             ;;
     esac
