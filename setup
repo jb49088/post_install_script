@@ -82,6 +82,11 @@ setup_zsa_qmk_firmware() {
     (cd ~/zsa_qmk_firmware && git submodule update --init --recursive)
 }
 
+setup_jellyfin() {
+    sudo mkdir -p /srv/jellyfin/{movies,shows,educational}
+    curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+}
+
 setup_services() {
     sudo systemctl enable --now nftables
 
@@ -91,7 +96,7 @@ setup_services() {
             ;;
         pi)
             sudo systemctl enable --now ssh
-            curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+            setup_jellyfin
             ;;
     esac
 }
