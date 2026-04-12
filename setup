@@ -68,8 +68,8 @@ prompt_for_secrets() {
 
 restore_from_restic() {
     local tags=(
-        "ssh" "services" "bash" "databases" "direnv" "dotfiles" "helix"
-        "history" "kakoune" "nftables" "nvim" "powershell" "python" "sql"
+        "ssh" "nftables" "services" "bash" "databases" "direnv" "dotfiles" "helix"
+        "history" "kakoune" "nvim" "powershell" "python" "sql"
         "sqliterc" "vault" "wsl" "wt" "zellij" "zsh"
     )
 
