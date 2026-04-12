@@ -65,6 +65,10 @@ restore_from_restic() {
     done
 }
 
+setup_uv() {
+    curl --location --silent --show-error --fail https://astral.sh/uv/install.sh | sh
+}
+
 setup_venvs() {
     mkdir "$HOME/venvs"
 
@@ -84,7 +88,7 @@ setup_zsa_qmk_firmware() {
 
 setup_jellyfin() {
     sudo mkdir -p /srv/jellyfin/{movies,shows,educational}
-    curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+    curl --silent https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 }
 
 setup_services() {
@@ -117,6 +121,7 @@ setup_pi() {
     install_packages "$MACHINE"
     prompt_for_secrets
     restore_from_restic "$MACHINE"
+    setup_uv
     setup_venvs
     setup_services "$MACHINE"
 }
