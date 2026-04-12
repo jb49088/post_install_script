@@ -66,7 +66,7 @@ restore_from_restic() {
 }
 
 setup_uv() {
-    curl --location --silent --show-error --fail https://astral.sh/uv/install.sh | sh
+    curl --silent --show-error --location --fail https://astral.sh/uv/install.sh | sh
 }
 
 setup_venvs() {
@@ -100,6 +100,7 @@ setup_services() {
             ;;
         pi)
             sudo systemctl enable --now ssh
+            curl --silent --show-error --location https://install.pi-hole.net | bash
             setup_jellyfin
             ;;
     esac
