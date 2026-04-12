@@ -130,6 +130,7 @@ setup_wsl() {
 setup_pi() {
     update_system "$MACHINE"
     install_packages "$MACHINE"
+    install_neovim
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_uv
