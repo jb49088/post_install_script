@@ -1,6 +1,6 @@
 ### setup_script
 
-blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+Automates post-installation environment replication across WSL and Raspberry Pi. Restores packages, dotfiles, databases, services, and configuration from Restic backups.
 
 ### Usage
 
@@ -18,10 +18,10 @@ Language                      files          blank        comment           code
 --------------------------------------------------------------------------------
 Text                              4              0              0            159
 Bourne Again Shell                1             29              3            130
-Markdown                          1             10              4             36
+Markdown                          1             12              4             36
 JSON                              1              0              0             33
 --------------------------------------------------------------------------------
-SUM:                              7             39              7            358
+SUM:                              7             41              7            358
 --------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->
