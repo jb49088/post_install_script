@@ -110,6 +110,7 @@ setup_services() {
             ;;
         pi)
             sudo systemctl enable --now ssh
+            sudo systemctl enable --now riven-sniper
             curl --silent --show-error --location --fail https://install.pi-hole.net | bash
             setup_jellyfin
             ;;
