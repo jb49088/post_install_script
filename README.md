@@ -32,18 +32,18 @@ SUM:                              7             41              7            358
 
 ```
 setup_script
-├── packages
-│   ├── kali
-│   │   └── apt.txt
-│   ├── pi
-│   │   └── apt.txt
-│   ├── windows
-│   │   └── winget.json
-│   └── wsl
-│       ├── npm.txt
-│       └── yay.txt
-├── README.md
-└── setup
+|-- README.md
+|-- packages
+|   |-- kali
+|   |   `-- apt.txt
+|   |-- pi
+|   |   `-- apt.txt
+|   |-- windows
+|   |   `-- winget.json
+|   `-- wsl
+|       |-- npm.txt
+|       `-- yay.txt
+`-- setup
 
 6 directories, 7 files
 ```

@@ -68,14 +68,14 @@ prompt_for_secrets() {
 
 restore_from_restic() {
     local tags=(
-        "ssh" "nftables" "services" "bash" "databases" "direnv" "dotfiles" "helix"
+        "ssh" "wsl" "nftables" "services" "bash" "databases" "direnv" "dotfiles" "helix"
         "history" "kakoune" "nvim" "powershell" "python" "sql"
-        "sqliterc" "vault" "wsl" "wt" "zellij" "zsh"
+        "sqliterc" "vault" "wt" "zellij" "zsh"
     )
 
     for tag in "${tags[@]}"; do
         local cmd="restic"
-        [[ "$tag" == "services" || "$tag" == "nftables" ]] && cmd="sudo --preserve-env restic"
+        [[ "$tag" == "wsl" || "$tag" == "nftables" || "$tag" == "services" ]] && cmd="sudo --preserve-env restic"
         $cmd restore latest --tag "$tag" --host "$1" --target / 2>/dev/null || true
     done
 }
