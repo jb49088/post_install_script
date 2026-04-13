@@ -16,15 +16,38 @@ select_machine() {
     done
 }
 
+setup_user() {
+    case "$1" in
+        wsl) pacman -Sy --noconfirm sudo ;;
+        pi) apt update && apt install --yes sudo ;;
+    esac
+
+    # Create user
+    useradd --create-home --groups wheel master
+    passwd master
+
+    # Change default shell
+    chsh --shell "/usr/bin/zsh"
+
+    # Uncomment line to give wheel users sudo permisssions
+    sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
+
+    # Rerun script as new user
+    su master --command 'bash <(curl --silent --show-error --location --fail https://raw.githubusercontent.com/jb49088/setup_script/master/setup)'
+
+    exit
+}
+
 bootstrap_yay() {
     sudo pacman -S --noconfirm git base-devel
     git clone https://aur.archlinux.org/yay.git
-    (cd yay && makepkg --syncdeps --install --noconfirm)
+    (cd yay && makepkg --syncdeps --install --noconfirm) # Build arch package from source
     rm --recursive --force yay
 }
 
 install_packages() {
     case "$1" in
+        # Get list of packages and pass it into corresponding package manager with xargs
         wsl) curl --silent --show-error --location --fail \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt \
             | xargs yay -S --noconfirm ;;
@@ -36,11 +59,13 @@ install_packages() {
 }
 
 install_neovim() {
+    # Get latest neovim release, decompress, and extract
     curl --silent --show-error --location --fail \
         https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz \
         | gzip --decompress --stdout \
         | sudo tar --extract --file=- --directory=/opt
 
+    # Link binary to /usr/local/bin/nvim for PATH access
     sudo ln --symbolic "/opt/nvim-linux-arm64/bin/nvim" "/usr/local/bin/nvim"
 }
 
@@ -60,6 +85,7 @@ prompt_for_secrets() {
         read -r -p "Enter B2 account ID: " B2_ACCOUNT_ID
         read -r -s -p "Enter B2 account key: " B2_ACCOUNT_KEY && echo
 
+        # Exit loop on valid credentials
         restic snapshots &>/dev/null && return
 
         echo "Invalid credentials" >&2
@@ -73,6 +99,7 @@ restore_from_restic() {
         "sqliterc" "vault" "wt" "zellij" "zsh"
     )
 
+    # Loop over tags array and restore corresponding restic snapshots using sudo when necesary
     for tag in "${tags[@]}"; do
         local cmd="restic"
         [[ "$tag" == "wsl" || "$tag" == "nftables" || "$tag" == "services" ]] && cmd="sudo --preserve-env restic"
@@ -93,6 +120,7 @@ setup_venvs() {
         "ping" "port_scanner" "riven_sniper" "wfm"
     )
 
+    # Loop over projects array, if directory exists on system, create virtual environment with corresponding requirements.txt file
     for project in "${projects[@]}"; do
         [[ -d "$HOME/python/projects/$project" ]] || continue
         uv venv "$HOME/venvs/$project" --python 3.13
@@ -102,6 +130,7 @@ setup_venvs() {
 
 setup_zsa_qmk_firmware() {
     git clone https://github.com/zsa/qmk_firmware.git "$HOME/zsa_qmk_firmware"
+    # Pull in nested dependencies declared in .gitmodules
     (cd ~/zsa_qmk_firmware && git submodule update --init --recursive)
 }
 
@@ -150,6 +179,9 @@ setup_pi() {
 
 main() {
     select_machine
+
+    # If current user is root, create user and rerun script
+    (("$UID" == 0)) && setup_user "$MACHINE"
 
     case "$MACHINE" in
         wsl) setup_wsl ;;
