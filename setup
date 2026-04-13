@@ -33,7 +33,7 @@ setup_user() {
     sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
 
     # Rerun script as new user
-    su master --login --command 'bash <(curl --silent --show-error --location --fail https://raw.githubusercontent.com/jb49088/setup_script/master/setup)'
+    su master --login --command 'script -q -c "bash <(curl --silent --show-error --location --fail https://raw.githubusercontent.com/jb49088/setup_script/master/setup)" /dev/null'
 
     exit
 }
