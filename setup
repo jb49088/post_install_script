@@ -31,6 +31,7 @@ setup_user() {
 
     # Rerun setup as new user
     # script allows for interactive prompts to work under su --command
+    # Pass in $1 so we dont get double promted for select_machine()
     su master --login --command 'script --quiet --command "bash <(curl --silent --show-error --location --fail \
         https://raw.githubusercontent.com/jb49088/setup_script/master/setup) '"$1"'" /dev/null'
 
@@ -192,10 +193,10 @@ setup_pi() {
 }
 
 main() {
-    if [[ -n "${1:-}" ]]; then
-        MACHINE="$1"
-    else
+    if [[ -z "${1:-}" ]]; then
         select_machine
+    else
+        MACHINE="$1"
     fi
 
     # If current user is root, create user and rerun script
