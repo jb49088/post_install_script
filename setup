@@ -18,8 +18,8 @@ select_machine() {
 
 setup_user() {
     case "$1" in
-        wsl) pacman -Sy --noconfirm sudo ;;
-        pi) apt update && apt install --yes sudo ;;
+        wsl) pacman -Sy --noconfirm sudo zsh ;;
+        pi) apt update && apt install --yes sudo zsh ;;
     esac
 
     # Create user
