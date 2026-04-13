@@ -27,7 +27,7 @@ setup_user() {
     passwd master
 
     # Change default shell
-    chsh --shell "/usr/bin/zsh"
+    chsh --shell "/usr/bin/zsh" master
 
     # Uncomment line to give wheel users sudo permisssions
     sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
@@ -181,7 +181,7 @@ main() {
     select_machine
 
     # If current user is root, create user and rerun script
-    (("$UID" == 0)) && setup_user "$MACHINE"
+    ((UID == 0)) && setup_user "$MACHINE"
 
     case "$MACHINE" in
         wsl) setup_wsl ;;
