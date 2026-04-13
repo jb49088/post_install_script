@@ -39,8 +39,8 @@ setup_user() {
 
 bootstrap_yay() {
     sudo pacman -S --noconfirm git base-devel
-    git clone https://aur.archlinux.org/yay.git
-    (cd yay && makepkg --syncdeps --install --noconfirm) # Build arch package from source
+    git clone https://aur.archlinux.org/yay.git "$HOME/yay"
+    (cd "$HOME/yay" && makepkg --syncdeps --install --noconfirm) # Build arch package from source
     rm --recursive --force yay
 }
 
@@ -85,7 +85,7 @@ prompt_for_secrets() {
         read -r -s -p "Enter B2 account key: " B2_ACCOUNT_KEY && echo
 
         # Exit loop on valid credentials
-        restic snapshots && return
+        restic snapshots &>/dev/null && return
 
         echo "Invalid credentials" >&2
     done
