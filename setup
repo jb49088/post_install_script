@@ -37,6 +37,24 @@ setup_user() {
     exit
 }
 
+setup_locale() {
+    # Enable en_US.UTF-8 UTF-8
+    sudo sed --in-place 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+
+    # Compile en_US.UTF-8 UTF-8
+    sudo locale-gen
+
+    # Set en_US.UTF-8 UTF-8 as default locale
+    echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf
+}
+
+update_system() {
+    case "$1" in
+        wsl) sudo pacman -Syu --noconfirm ;;
+        pi) sudo apt update && sudo apt upgrade --yes ;;
+    esac
+}
+
 bootstrap_yay() {
     sudo pacman -S --noconfirm git base-devel
     git clone https://aur.archlinux.org/yay.git "$HOME/yay"
@@ -66,13 +84,6 @@ install_neovim() {
 
     # Link binary to /usr/local/bin/nvim for PATH access
     sudo ln --symbolic "/opt/nvim-linux-arm64/bin/nvim" "/usr/local/bin/nvim"
-}
-
-update_system() {
-    case "$1" in
-        wsl) sudo pacman -Syu --noconfirm ;;
-        pi) sudo apt update && sudo apt upgrade --yes ;;
-    esac
 }
 
 prompt_for_secrets() {
@@ -158,6 +169,7 @@ setup_services() {
 }
 
 setup_wsl() {
+    setup_locale
     update_system "$MACHINE"
     bootstrap_yay
     install_packages "$MACHINE"
