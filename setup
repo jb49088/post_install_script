@@ -29,11 +29,11 @@ setup_user() {
     # Change default shell
     chsh --shell "/usr/bin/zsh" master
 
-    # Uncomment line to give wheel users sudo permisssions
-    sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
+    sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
 
     # Rerun script as new user
-    su master --login --command 'script -q -c "bash <(curl --silent --show-error --location --fail https://raw.githubusercontent.com/jb49088/setup_script/master/setup)" /dev/null'
+    su master --login --command 'bash <(curl --silent --show-error --location --fail \
+        https://raw.githubusercontent.com/jb49088/setup_script/master/setup)'
 
     exit
 }
@@ -183,10 +183,14 @@ main() {
     # If current user is root, create user and rerun script
     ((UID == 0)) && setup_user "$MACHINE"
 
+    sudo sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
+
     case "$MACHINE" in
         wsl) setup_wsl ;;
         pi) setup_pi ;;
     esac
+
+    sudo sed --in-place 's/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
 
     exec zsh
 }
