@@ -32,9 +32,10 @@ setup_user() {
     # Grant wheel group passwordless sudo
     sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
 
-    # Rerun script as new user
-    su master --login --command 'bash <(curl --silent --show-error --location --fail \
-        https://raw.githubusercontent.com/jb49088/setup_script/master/setup)'
+    # Rerun setup as new user
+    # script allows for interactive prompts to work under su --command
+    su master --login --command 'script --quiet --command "bash <(curl --silent --show-error --location --fail \
+        https://raw.githubusercontent.com/jb49088/setup_script/master/setup)" /dev/null'
 
     exit
 }
@@ -78,16 +79,13 @@ update_system() {
 }
 
 prompt_for_secrets() {
-    # Auto-accept new SSH host keys (required when no TTY is present)
-    export RESTIC_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new"
-
     export RESTIC_REPOSITORY RESTIC_PASSWORD B2_ACCOUNT_ID B2_ACCOUNT_KEY
 
     while true; do
         read -r -p "Enter Restic repository: " RESTIC_REPOSITORY
-        read -r -p "Enter Restic password: " RESTIC_PASSWORD && echo
+        read -r -s -p "Enter Restic password: " RESTIC_PASSWORD && echo
         read -r -p "Enter B2 account ID: " B2_ACCOUNT_ID
-        read -r -p "Enter B2 account key: " B2_ACCOUNT_KEY && echo
+        read -r -s -p "Enter B2 account key: " B2_ACCOUNT_KEY && echo
 
         # Exit loop on valid credentials
         restic snapshots && return
