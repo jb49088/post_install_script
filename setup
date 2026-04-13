@@ -78,6 +78,9 @@ update_system() {
 }
 
 prompt_for_secrets() {
+    # Auto-accept new SSH host keys (required when no TTY is present)
+    export RESTIC_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new"
+
     export RESTIC_REPOSITORY RESTIC_PASSWORD B2_ACCOUNT_ID B2_ACCOUNT_KEY
 
     while true; do
