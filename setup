@@ -32,7 +32,7 @@ setup_user() {
     # Rerun setup as new user
     # script allows for interactive prompts to work under su --command
     su master --login --command 'script --quiet --command "bash <(curl --silent --show-error --location --fail \
-        https://raw.githubusercontent.com/jb49088/setup_script/master/setup)" /dev/null'
+        https://raw.githubusercontent.com/jb49088/setup_script/master/setup) '"$1"'" /dev/null'
 
     exit
 }
@@ -180,7 +180,11 @@ setup_pi() {
 }
 
 main() {
-    select_machine
+    if [[ -n "${1:-}" ]]; then
+        MACHINE="$1"
+    else
+        select_machine
+    fi
 
     # If current user is root, create user and rerun script
     ((UID == 0)) && setup_user "$MACHINE"
@@ -202,4 +206,4 @@ main() {
     exec zsh
 }
 
-main
+main "$@"
