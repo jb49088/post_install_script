@@ -18,16 +18,13 @@ select_machine() {
 
 setup_user() {
     case "$1" in
-        wsl) pacman -Sy --noconfirm sudo zsh ;;
-        pi) apt update && apt install --yes sudo zsh ;;
+        wsl) pacman -Sy --noconfirm sudo ;;
+        pi) apt update && apt install --yes sudo ;;
     esac
 
     # Create user
     useradd --create-home --groups wheel master
     passwd master
-
-    # Change default shell
-    chsh --shell "/usr/bin/zsh" master
 
     # Grant wheel group passwordless sudo
     sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
@@ -198,6 +195,9 @@ main() {
 
     # Revoke wheel group passwordless sudo
     sudo sed --in-place 's/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
+
+    # Set default shell to zsh
+    sudo chsh --shell "/usr/bin/zsh" master
 
     exec zsh
 }
