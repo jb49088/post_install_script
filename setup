@@ -201,7 +201,7 @@ main() {
     sudo sed --in-place 's/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
 
     # Set default shell to zsh
-    sudo chsh --shell "/usr/bin/zsh" master
+    chsh --shell "/usr/bin/zsh"
 
     exec zsh
 }
