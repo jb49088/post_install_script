@@ -90,7 +90,7 @@ prompt_for_secrets() {
         read -r -p "Enter B2 account key: " B2_ACCOUNT_KEY && echo
 
         # Exit loop on valid credentials
-        restic snapshots &>/dev/null && return
+        restic snapshots && return
 
         echo "Invalid credentials" >&2
     done
