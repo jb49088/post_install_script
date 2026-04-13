@@ -29,6 +29,7 @@ setup_user() {
     # Change default shell
     chsh --shell "/usr/bin/zsh" master
 
+    # Grant wheel group passwordless sudo
     sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
 
     # Rerun script as new user
@@ -105,6 +106,9 @@ restore_from_restic() {
         [[ "$tag" == "wsl" || "$tag" == "nftables" || "$tag" == "services" ]] && cmd="sudo --preserve-env restic"
         $cmd restore latest --tag "$tag" --host "$1" --target / 2>/dev/null || true
     done
+
+    # Fix cache permissions after sudo restores
+    sudo chown -R master:master ~/.cache/restic
 }
 
 setup_uv() {
@@ -183,6 +187,7 @@ main() {
     # If current user is root, create user and rerun script
     ((UID == 0)) && setup_user "$MACHINE"
 
+    # Grant wheel group passwordless sudo
     sudo sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
 
     case "$MACHINE" in
@@ -190,6 +195,7 @@ main() {
         pi) setup_pi ;;
     esac
 
+    # Revoke wheel group passwordless sudo
     sudo sed --in-place 's/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
 
     exec zsh
