@@ -49,6 +49,10 @@ setup_locale() {
     echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf
 }
 
+clear_motd() {
+    sudo truncate --size=0 /etc/motd
+}
+
 update_system() {
     case "$1" in
         wsl) sudo pacman -Syu --noconfirm ;;
@@ -195,9 +199,11 @@ setup_wsl() {
 }
 
 setup_pi() {
+    clear_motd
     update_system "$MACHINE"
     install_packages "$MACHINE"
     install_neovim
+    install_yazi
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_uv
