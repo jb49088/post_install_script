@@ -87,6 +87,18 @@ install_neovim() {
     sudo ln --symbolic "/opt/nvim-linux-arm64/bin/nvim" "/usr/local/bin/nvim"
 }
 
+install_yazi() {
+    local output="$HOME/yazi.deb"
+
+    curl --silent --show-error --location --fail \
+        https://github.com/sxyazi/yazi/releases/latest/download/yazi-aarch64-unknown-linux-gnu.deb \
+        --output "$output"
+
+    sudo apt install --yes "$output"
+
+    rm "$output"
+}
+
 prompt_for_secrets() {
     export RESTIC_REPOSITORY RESTIC_PASSWORD B2_ACCOUNT_ID B2_ACCOUNT_KEY
 
