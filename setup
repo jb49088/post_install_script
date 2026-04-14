@@ -123,7 +123,7 @@ restore_from_restic() {
     local tags=(
         "ssh" "wsl" "nftables" "services" "bash" "databases" "direnv" "dotfiles" "helix"
         "history" "kakoune" "nvim" "powershell" "python" "sql"
-        "sqliterc" "vault" "wt" "zellij" "zsh"
+        "sqliterc" "vault" "yazi" "wt" "zellij" "zsh"
     )
 
     # Loop over tags array and restore corresponding restic snapshots using sudo when necesary
