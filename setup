@@ -170,6 +170,10 @@ setup_jellyfin() {
     curl --silent --show-error --location --fail https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 }
 
+setup_restic() {
+    restic init --repo "$HOME/restic"
+}
+
 setup_services() {
     sudo systemctl enable --now nftables
 
@@ -208,6 +212,7 @@ setup_pi() {
     restore_from_restic "$MACHINE"
     setup_uv
     setup_venvs
+    setup_restic
     setup_services "$MACHINE"
 }
 
