@@ -49,8 +49,8 @@ setup_locale() {
     echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf
 }
 
-clear_motd() {
-    sudo truncate --size=0 /etc/motd
+hush_login() {
+    touch "$HOME/.hushlogin"
 }
 
 update_system() {
@@ -199,7 +199,7 @@ setup_wsl() {
 }
 
 setup_pi() {
-    clear_motd
+    hush_login
     update_system "$MACHINE"
     install_packages "$MACHINE"
     install_neovim
