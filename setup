@@ -8,9 +8,9 @@ set -euo pipefail
 
 select_machine() {
     while true; do
-        read -r -p "Select machine [wsl/pi]: " MACHINE
+        read -r -p "Select machine [wsl/pi/kali]: " MACHINE
         case "$MACHINE" in
-            wsl | pi) return ;;
+            wsl | pi | kali) return ;;
             *) echo "Invalid option" >&2 ;;
         esac
     done
@@ -57,6 +57,7 @@ update_system() {
     case "$1" in
         wsl) sudo pacman -Syu --noconfirm ;;
         pi) sudo apt update && sudo apt upgrade --yes ;;
+        kali) sudo apt update && sudo apt upgrade --yes ;;
     esac
 }
 
@@ -76,6 +77,10 @@ install_packages() {
 
         pi) curl --silent --show-error --location --fail \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
+            | xargs sudo apt install --yes ;;
+
+        kali) curl --silent --show-error --location --fail \
+            https://raw.githubusercontent.com/jb49088/setup_script/master/packages/kali/apt.txt \
             | xargs sudo apt install --yes ;;
     esac
 }
@@ -187,6 +192,9 @@ setup_services() {
             curl --silent --show-error --location --fail https://install.pi-hole.net | bash
             setup_jellyfin
             ;;
+        kali)
+            sudo systemctl enable --now sshd
+            ;;
     esac
 }
 
@@ -216,6 +224,14 @@ setup_pi() {
     setup_services "$MACHINE"
 }
 
+setup_kali() {
+    update_system "$MACHINE"
+    install_packages "$MACHINE"
+    prompt_for_secrets
+    restore_from_restic "$MACHINE"
+    setup_services "$MACHINE"
+}
+
 main() {
     if [[ -z "${1:-}" ]]; then
         select_machine
@@ -232,6 +248,7 @@ main() {
     case "$MACHINE" in
         wsl) setup_wsl ;;
         pi) setup_pi ;;
+        kali) setup_sec ;;
     esac
 
     # Revoke wheel group passwordless sudo
