@@ -17,11 +17,11 @@ bash <(curl -sSL https://raw.githubusercontent.com/jb49088/setup_script/master/s
 Language                      files          blank        comment           code
 --------------------------------------------------------------------------------
 Bourne Again Shell                1             50             23            190
-Text                              4              0              0            159
+Text                              4              0              0            160
 Markdown                          1             10              4             36
 JSON                              1              0              0             33
 --------------------------------------------------------------------------------
-SUM:                              7             60             27            418
+SUM:                              7             60             27            419
 --------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->
@@ -32,18 +32,18 @@ SUM:                              7             60             27            418
 
 ```
 setup_script
-|-- README.md
-|-- packages
-|   |-- kali
-|   |   `-- apt.txt
-|   |-- pi
-|   |   `-- apt.txt
-|   |-- windows
-|   |   `-- winget.json
-|   `-- wsl
-|       |-- npm.txt
-|       `-- yay.txt
-`-- setup
+├── packages
+│   ├── kali
+│   │   └── apt.txt
+│   ├── pi
+│   │   └── apt.txt
+│   ├── windows
+│   │   └── winget.json
+│   └── wsl
+│       ├── npm.txt
+│       └── yay.txt
+├── README.md
+└── setup
 
 6 directories, 7 files
 ```
