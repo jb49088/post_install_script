@@ -86,22 +86,41 @@ install_packages() {
 }
 
 install_neovim() {
-    # Get latest neovim release, decompress, and extract
-    curl --silent --show-error --location --fail \
-        https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz \
-        | gzip --decompress --stdout \
-        | sudo tar --extract --file=- --directory=/opt
+    case "$1" in
+        pi)
+            # Get latest neovim release, decompress, and extract
+            curl --silent --show-error --location --fail \
+                https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz \
+                | gzip --decompress --stdout \
+                | sudo tar --extract --file=- --directory=/opt
 
-    # Link binary to /usr/local/bin/nvim for PATH access
-    sudo ln --symbolic "/opt/nvim-linux-arm64/bin/nvim" "/usr/local/bin/nvim"
+            # Link binary to /usr/local/bin/nvim for PATH access
+            sudo ln --symbolic "/opt/nvim-linux-arm64/bin/nvim" "/usr/local/bin/nvim"
+            ;;
+
+        kali)
+            curl --silent --show-error --location --fail \
+                https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz \
+                | gzip --decompress --stdout \
+                | sudo tar --extract --file=- --directory=/opt
+
+            sudo ln --symbolic "/opt/nvim-linux-x86_64/bin/nvim" "/usr/local/bin/nvim"
+            ;;
+    esac
 }
 
 install_yazi() {
     local output="$HOME/yazi.deb"
 
-    curl --silent --show-error --location --fail \
-        https://github.com/sxyazi/yazi/releases/latest/download/yazi-aarch64-unknown-linux-gnu.deb \
-        --output "$output"
+    case "$1" in
+        pi) curl --silent --show-error --location --fail \
+            https://github.com/sxyazi/yazi/releases/latest/download/yazi-aarch64-unknown-linux-gnu.deb \
+            --output "$output" ;;
+
+        kali) curl --silent --show-error --location --fail \
+            https://github.com/sxyazi/yazi/releases/latest/download/yazi-x86_64-unknown-linux-gnu.deb \
+            --output "$output" ;;
+    esac
 
     sudo apt install --yes "$output"
 
@@ -214,8 +233,8 @@ setup_pi() {
     hush_login
     update_system "$MACHINE"
     install_packages "$MACHINE"
-    install_neovim
-    install_yazi
+    install_neovim "$MACHINE"
+    install_yazi "$MACHINE"
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_uv
@@ -228,6 +247,8 @@ setup_kali() {
     hush_login
     update_system "$MACHINE"
     install_packages "$MACHINE"
+    install_neovim "$MACHINE"
+    install_yazi "$MACHINE"
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_services "$MACHINE"
