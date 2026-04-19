@@ -225,6 +225,7 @@ setup_pi() {
 }
 
 setup_kali() {
+    hush_login
     update_system "$MACHINE"
     install_packages "$MACHINE"
     prompt_for_secrets
