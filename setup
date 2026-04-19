@@ -248,7 +248,7 @@ main() {
     case "$MACHINE" in
         wsl) setup_wsl ;;
         pi) setup_pi ;;
-        kali) setup_sec ;;
+        kali) setup_kali ;;
     esac
 
     # Revoke wheel group passwordless sudo
