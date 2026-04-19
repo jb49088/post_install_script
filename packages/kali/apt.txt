@@ -21,7 +21,6 @@ make
 mariadb-client
 mongodb-clients
 ncat
-neovim
 netcat-traditional
 nikto
 nmap
