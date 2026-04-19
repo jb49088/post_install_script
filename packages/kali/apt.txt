@@ -15,6 +15,13 @@ hping3
 htop
 hydra
 john
+kali-wallpapers-2019.4
+kali-wallpapers-2020.4
+kali-wallpapers-2022
+kali-wallpapers-2023
+kali-wallpapers-2024
+kali-wallpapers-2025
+kali-wallpapers-2026
 lsof
 luarocks
 make
@@ -32,9 +39,9 @@ postgresql
 python3-venv
 redis-tools
 responder
+restic
 ripgrep
 rsync
-restic
 seclists
 smbclient
 tcpdump
