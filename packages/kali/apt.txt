@@ -35,6 +35,7 @@ redis-tools
 responder
 ripgrep
 rsync
+restic
 seclists
 smbclient
 tcpdump
