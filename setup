@@ -193,7 +193,7 @@ setup_services() {
             setup_jellyfin
             ;;
         kali)
-            sudo systemctl enable --now sshd
+            sudo systemctl enable --now ssh
             ;;
     esac
 }
