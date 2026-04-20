@@ -6,6 +6,8 @@
 
 set -euo pipefail
 
+MACHINE=""
+
 select_machine() {
     while true; do
         read -r -p "Select machine [wsl/pi/kali]: " MACHINE
@@ -14,28 +16,6 @@ select_machine() {
             *) echo "Invalid option" >&2 ;;
         esac
     done
-}
-
-setup_user() {
-    case "$1" in
-        wsl) pacman -Sy --noconfirm sudo ;;
-        pi) apt update && apt install --yes sudo ;;
-    esac
-
-    # Create user
-    useradd --create-home --groups wheel master
-    passwd master
-
-    # Grant wheel group passwordless sudo
-    sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
-
-    # Rerun setup as new user
-    # script allows for interactive prompts to work under su --command
-    # Pass in $1 so we dont get double promted for select_machine()
-    su master --login --command 'script --quiet --command "bash <(curl --silent --show-error --location --fail \
-        https://raw.githubusercontent.com/jb49088/setup_script/master/setup) '"$1"'" /dev/null'
-
-    exit
 }
 
 setup_locale() {
@@ -286,14 +266,12 @@ setup_kali() {
 }
 
 main() {
-    if [[ -z "${1:-}" ]]; then
-        select_machine
-    else
-        MACHINE="$1"
+    if ((UID == 0)); then
+        echo "Do not run this script as root"
+        exit
     fi
 
-    # If current user is root, create user and rerun script
-    ((UID == 0)) && setup_user "$MACHINE"
+    select_machine
 
     # Grant wheel group passwordless sudo
     sudo sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
