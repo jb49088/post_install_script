@@ -267,8 +267,8 @@ setup_kali() {
 
 main() {
     if ((UID == 0)); then
-        echo "Do not run this script as root"
-        exit
+        echo "Do not run this script as root" >&2
+        exit 1
     fi
 
     select_machine
