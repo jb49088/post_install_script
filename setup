@@ -53,15 +53,15 @@ install_packages() {
         # Get list of packages and pass it into corresponding package manager with xargs
         wsl) curl --silent --show-error --location --fail \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt \
-            | xargs yay -S --noconfirm ;;
+            | xargs --no-run-if-empty yay -S --noconfirm ;;
 
         pi) curl --silent --show-error --location --fail \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
-            | xargs sudo apt install --yes ;;
+            | xargs --no-run-if-empty sudo apt install --yes ;;
 
         kali) curl --silent --show-error --location --fail \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/kali/apt.txt \
-            | xargs sudo apt install --yes ;;
+            | xargs --no-run-if-empty sudo apt install --yes ;;
     esac
 }
 
