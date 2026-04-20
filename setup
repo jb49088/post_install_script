@@ -195,7 +195,8 @@ setup_venvs() {
     for project in "${projects[@]}"; do
         [[ -d "$HOME/python/projects/$project" ]] || continue
         uv venv "$HOME/venvs/$project" --python 3.13
-        uv pip install --requirement "$HOME/python/projects/$project/requirements.txt" --python "$HOME/venvs/$project"
+        uv pip install --requirement "$HOME/python/projects/$project/requirements.txt" \
+            --python "$HOME/venvs/$project/bin/python3"
     done
 }
 
