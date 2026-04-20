@@ -77,7 +77,7 @@ install_neovim() {
                 | sudo tar --extract --file=- --directory=/opt
 
             # Link binary to /usr/local/bin/nvim for PATH access
-            sudo ln --symbolic "/opt/nvim-linux-arm64/bin/nvim" "/usr/local/bin/nvim"
+            sudo ln --symbolic --force "/opt/nvim-linux-arm64/bin/nvim" "/usr/local/bin/nvim"
             ;;
 
         kali)
@@ -201,7 +201,7 @@ setup_venvs() {
 setup_zsa_qmk_firmware() {
     git clone https://github.com/zsa/qmk_firmware.git "$HOME/zsa_qmk_firmware"
     # Pull in nested dependencies declared in .gitmodules
-    (cd ~/zsa_qmk_firmware && git submodule update --init --recursive)
+    (cd "$HOME/zsa_qmk_firmware" && git submodule update --init --recursive)
 }
 
 setup_jellyfin() {
