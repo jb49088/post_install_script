@@ -87,7 +87,7 @@ install_neovim() {
                 | gzip --decompress --stdout \
                 | sudo tar --extract --file=- --directory=/opt
 
-            sudo ln --symbolic "/opt/nvim-linux-x86_64/bin/nvim" "/usr/local/bin/nvim"
+            sudo ln --symbolic --force "/opt/nvim-linux-x86_64/bin/nvim" "/usr/local/bin/nvim"
             ;;
     esac
 }
