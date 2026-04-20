@@ -288,10 +288,10 @@ main() {
     # Revoke wheel group passwordless sudo
     sudo sed --in-place 's/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
 
-    # Set default shell to zsh
-    chsh --shell "/usr/bin/zsh"
-
-    exec zsh
+    if command -v zsh >/dev/null; then
+        chsh --shell "$(command -v zsh)"
+        exec zsh
+    fi
 }
 
 main "$@"
