@@ -171,7 +171,7 @@ restore_from_restic() {
     done
 
     # Fix cache permissions after sudo restores
-    sudo chown -R master:master ~/.cache/restic
+    sudo chown -R "$USER:$USER" ~/.cache/restic
 }
 
 setup_uv() {
