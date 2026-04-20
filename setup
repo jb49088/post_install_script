@@ -212,7 +212,7 @@ setup_jellyfin() {
     $CURL https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 }
 
-setup_restic() {
+create_restic_repo() {
     restic init --repo "$HOME/restic"
 }
 
@@ -254,9 +254,9 @@ setup_pi() {
     install_optional_software
     prompt_for_secrets
     restore_from_restic
+    create_restic_repo
     setup_uv
     setup_venvs
-    setup_restic
     setup_services
 }
 
