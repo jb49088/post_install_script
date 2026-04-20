@@ -183,7 +183,7 @@ setup_uv() {
 }
 
 setup_venvs() {
-    mkdir "$HOME/venvs"
+    mkdir --parents "$HOME/venvs"
 
     local projects=(
         "alien_invasion" "data_visualization" "fish_tank" "infosec_forum"
