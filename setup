@@ -277,7 +277,7 @@ main() {
     select_machine
 
     # Grant wheel group passwordless sudo
-    sudo sed --in-place 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' "/etc/sudoers"
+    echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/nopasswd
 
     case "$MACHINE" in
         wsl) setup_wsl ;;
@@ -286,7 +286,7 @@ main() {
     esac
 
     # Revoke wheel group passwordless sudo
-    sudo sed --in-place 's/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
+    sudo rm /etc/sudoers.d/nopasswd
 
     if command -v zsh >/dev/null; then
         chsh --shell "$(command -v zsh)"
