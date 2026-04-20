@@ -110,21 +110,51 @@ install_neovim() {
 }
 
 install_yazi() {
-    local output="$HOME/yazi.deb"
-
     case "$1" in
-        pi) curl --silent --show-error --location --fail \
-            https://github.com/sxyazi/yazi/releases/latest/download/yazi-aarch64-unknown-linux-gnu.deb \
-            --output "$output" ;;
+        pi)
+            curl --silent --show-error --location --fail --remote-name \
+                https://github.com/sxyazi/yazi/releases/latest/download/yazi-aarch64-unknown-linux-gnu.deb
 
-        kali) curl --silent --show-error --location --fail \
-            https://github.com/sxyazi/yazi/releases/latest/download/yazi-x86_64-unknown-linux-gnu.deb \
-            --output "$output" ;;
+            sudo apt install --yes yazi-aarch64-unknown-linux-gnu.deb
+
+            rm yazi-aarch64-unknown-linux-gnu.deb
+            ;;
+        kali)
+            curl --silent --show-error --location --fail --remote-name \
+                https://github.com/sxyazi/yazi/releases/latest/download/yazi-x86_64-unknown-linux-gnu.deb
+
+            sudo apt install --yes yazi-x86_64-unknown-linux-gnu.deb
+
+            rm yazi-x86_64-unknown-linux-gnu.deb
+            ;;
     esac
+}
 
-    sudo apt install --yes "$output"
+install_deskflow() {
+    local version
+    version=$(curl --silent --fail https://api.github.com/repos/deskflow/deskflow/releases/latest \
+        | grep '"tag_name"' | cut -d'"' -f4 | tr -d 'v') # Extract version from json
 
-    rm "$output"
+    curl --silent --show-error --location --fail --remote-name \
+        "https://github.com/deskflow/deskflow/releases/latest/download/deskflow-${version}-debian-trixie-x86_64.deb"
+
+    sudo apt install --yes "deskflow-${version}-debian-trixie-x86_64.deb"
+
+    rm "deskflow-${version}-debian-trixie-x86_64.deb"
+}
+
+install_optional_software() {
+    case "$1" in
+        pi)
+            install_neovim "$1"
+            install_yazi "$1"
+            ;;
+        kali)
+            install_neovim "$1"
+            install_yazi "$1"
+            install_deskflow
+            ;;
+    esac
 }
 
 prompt_for_secrets() {
@@ -145,15 +175,17 @@ prompt_for_secrets() {
 
 restore_from_restic() {
     local tags=(
-        "ssh" "wsl" "nftables" "services" "bash" "databases" "direnv" "dotfiles" "helix"
-        "history" "kakoune" "nvim" "powershell" "python" "sql"
-        "sqliterc" "vault" "yazi" "wt" "zellij" "zsh"
+        "ssh" "wsl" "nftables" "services" "bash" "databases" "direnv" "dotfiles"
+        "helix" "history" "kakoune" "nvim" "powershell" "python" "sql"
+        "sqliterc" "vault" "yazi" "wt" "zellij" "zsh" "lightdm" "autostart"
     )
+
+    local sudo_tags=("wsl" "nftables" "services" "lightdm")
 
     # Loop over tags array and restore corresponding restic snapshots using sudo when necesary
     for tag in "${tags[@]}"; do
         local cmd="restic"
-        [[ "$tag" == "wsl" || "$tag" == "nftables" || "$tag" == "services" ]] && cmd="sudo --preserve-env restic"
+        [[ " ${sudo_tags[*]} " == *" $tag "* ]] && cmd="sudo --preserve-env restic"
         $cmd restore latest --tag "$tag" --host "$1" --target / 2>/dev/null || true
     done
 
@@ -233,8 +265,7 @@ setup_pi() {
     hush_login
     update_system "$MACHINE"
     install_packages "$MACHINE"
-    install_neovim "$MACHINE"
-    install_yazi "$MACHINE"
+    install_optional_software "$MACHINE"
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_uv
@@ -247,8 +278,7 @@ setup_kali() {
     hush_login
     update_system "$MACHINE"
     install_packages "$MACHINE"
-    install_neovim "$MACHINE"
-    install_yazi "$MACHINE"
+    install_optional_software "$MACHINE"
     prompt_for_secrets
     restore_from_restic "$MACHINE"
     setup_services "$MACHINE"
