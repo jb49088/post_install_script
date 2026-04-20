@@ -194,7 +194,7 @@ setup_venvs() {
     # Loop over projects array, if directory exists on system, create virtual environment with corresponding requirements.txt file
     for project in "${projects[@]}"; do
         [[ -d "$HOME/python/projects/$project" ]] || continue
-        uv venv "$HOME/venvs/$project" --python 3.13
+        uv venv "$HOME/venvs/$project" --python 3.13 # Pin version for pre-built wheels
         uv pip install --requirement "$HOME/python/projects/$project/requirements.txt" \
             --python "$HOME/venvs/$project/bin/python3"
     done
