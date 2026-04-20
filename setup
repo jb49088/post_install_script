@@ -8,6 +8,8 @@ set -euo pipefail
 
 MACHINE=""
 
+CURL="curl --location --fail --remote-name --retry 3 --retry-delay 2 --retry-all-errors"
+
 select_machine() {
     while true; do
         read -r -p "Select machine [wsl/pi/kali]: " MACHINE
@@ -51,15 +53,15 @@ bootstrap_yay() {
 install_packages() {
     case "$MACHINE" in
         # Get list of packages and pass it into corresponding package manager with xargs
-        wsl) curl --location --fail --retry 3 --retry-delay 2 --retry-all-errors \
+        wsl) $CURL \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt \
             | xargs --no-run-if-empty yay -S --noconfirm ;;
 
-        pi) curl --location --fail --retry 3 --retry-delay 2 --retry-all-errors \
+        pi) $CURL \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
             | xargs --no-run-if-empty sudo apt install --yes ;;
 
-        kali) curl --location --fail --retry 3 --retry-delay 2 --retry-all-errors \
+        kali) $CURL \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/kali/apt.txt \
             | xargs --no-run-if-empty sudo apt install --yes ;;
     esac
@@ -69,7 +71,7 @@ install_neovim() {
     case "$MACHINE" in
         pi)
             # Get latest neovim release, decompress, and extract
-            curl --location --fail --retry 3 --retry-delay 2 --retry-all-errors \
+            $CURL \
                 https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz \
                 | gzip --decompress --stdout \
                 | sudo tar --extract --file=- --directory=/opt
@@ -79,7 +81,7 @@ install_neovim() {
             ;;
 
         kali)
-            curl --location --fail --retry 3 --retry-delay 2 --retry-all-errors \
+            $CURL \
                 https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz \
                 | gzip --decompress --stdout \
                 | sudo tar --extract --file=- --directory=/opt
@@ -92,7 +94,7 @@ install_neovim() {
 install_yazi() {
     case "$MACHINE" in
         pi)
-            curl --location --fail --remote-name --retry 3 --retry-delay 2 --retry-all-errors \
+            $CURL \
                 https://github.com/sxyazi/yazi/releases/latest/download/yazi-aarch64-unknown-linux-gnu.deb
 
             sudo apt install --yes yazi-aarch64-unknown-linux-gnu.deb
@@ -100,7 +102,7 @@ install_yazi() {
             rm yazi-aarch64-unknown-linux-gnu.deb
             ;;
         kali)
-            curl --location --fail --remote-name --retry 3 --retry-delay 2 --retry-all-errors \
+            $CURL \
                 https://github.com/sxyazi/yazi/releases/latest/download/yazi-x86_64-unknown-linux-gnu.deb
 
             sudo apt install --yes yazi-x86_64-unknown-linux-gnu.deb
@@ -112,11 +114,11 @@ install_yazi() {
 
 install_deskflow() {
     local version
-    version=$(curl --location --fail --remote-name --retry 3 --retry-delay 2 --retry-all-errors \
+    version=$($CURL \
         https://api.github.com/repos/deskflow/deskflow/releases/latest \
         | grep '"tag_name"' | cut -d'"' -f4 | tr -d 'v') # Extract version from json
 
-    curl --location --fail --remote-name --retry 3 --retry-delay 2 --retry-all-errors \
+    $CURL \
         "https://github.com/deskflow/deskflow/releases/latest/download/deskflow-${version}-debian-trixie-x86_64.deb"
 
     sudo apt install --yes "deskflow-${version}-debian-trixie-x86_64.deb"
@@ -176,8 +178,7 @@ restore_from_restic() {
 }
 
 setup_uv() {
-    curl --location --fail --retry 3 --retry-delay 2 --retry-all-errors \
-        https://astral.sh/uv/install.sh | sh
+    $CURL https://astral.sh/uv/install.sh | sh
     export PATH="$HOME/.local/bin:$PATH" # Add uv to PATH for script duration
 }
 
@@ -206,8 +207,7 @@ setup_zsa_qmk_firmware() {
 setup_jellyfin() {
     sudo mkdir --parents /srv/jellyfin/{movies,shows,educational}
     sudo mount --options remount,size=3G /tmp # Installer needs >= 2gb free space in /tmp
-    curl --location --fail --retry 3 --retry-delay 2 --retry-all-errors \
-        https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+    $CURL https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 }
 
 setup_restic() {
@@ -224,8 +224,7 @@ setup_services() {
         pi)
             sudo systemctl enable --now ssh
             sudo systemctl enable --now riven-sniper
-            curl --location --fail --retry 3 --retry-delay 2 --retry-all-errors \
-                https://install.pi-hole.net | bash
+            $CURL https://install.pi-hole.net | bash
             setup_jellyfin
             ;;
         kali)
