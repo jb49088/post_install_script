@@ -234,7 +234,7 @@ setup_restic() {
 setup_services() {
     sudo systemctl enable --now nftables
 
-    case "$MACHINE" in
+    case "$1" in
         wsl)
             sudo systemctl enable --now sshd
             ;;
