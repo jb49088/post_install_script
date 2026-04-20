@@ -54,7 +54,7 @@ hush_login() {
 }
 
 update_system() {
-    case "$1" in
+    case "$MACHINE" in
         wsl) sudo pacman -Syu --noconfirm ;;
         pi) sudo apt update && sudo apt upgrade --yes ;;
         kali) sudo apt update && sudo apt upgrade --yes ;;
@@ -69,7 +69,7 @@ bootstrap_yay() {
 }
 
 install_packages() {
-    case "$1" in
+    case "$MACHINE" in
         # Get list of packages and pass it into corresponding package manager with xargs
         wsl) curl --silent --show-error --location --fail \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt \
@@ -86,7 +86,7 @@ install_packages() {
 }
 
 install_neovim() {
-    case "$1" in
+    case "$MACHINE" in
         pi)
             # Get latest neovim release, decompress, and extract
             curl --silent --show-error --location --fail \
@@ -110,7 +110,7 @@ install_neovim() {
 }
 
 install_yazi() {
-    case "$1" in
+    case "$MACHINE" in
         pi)
             curl --silent --show-error --location --fail --remote-name \
                 https://github.com/sxyazi/yazi/releases/latest/download/yazi-aarch64-unknown-linux-gnu.deb
@@ -144,14 +144,14 @@ install_deskflow() {
 }
 
 install_optional_software() {
-    case "$1" in
+    case "$MACHINE" in
         pi)
-            install_neovim "$1"
-            install_yazi "$1"
+            install_neovim
+            install_yazi
             ;;
         kali)
-            install_neovim "$1"
-            install_yazi "$1"
+            install_neovim
+            install_yazi
             install_deskflow
             ;;
     esac
@@ -187,7 +187,7 @@ restore_from_restic() {
     for tag in "${tags[@]}"; do
         local cmd="restic"
         [[ " ${sudo_tags[*]} " == *" $tag "* ]] && cmd="sudo --preserve-env restic"
-        $cmd restore latest --tag "$tag" --host "$1" --target / 2>/dev/null || true
+        $cmd restore latest --tag "$tag" --host "$MACHINE" --target / 2>/dev/null || true
     done
 
     # Fix cache permissions after sudo restores
@@ -234,7 +234,7 @@ setup_restic() {
 setup_services() {
     sudo systemctl enable --now nftables
 
-    case "$1" in
+    case "$MACHINE" in
         wsl)
             sudo systemctl enable --now sshd
             ;;
@@ -252,37 +252,37 @@ setup_services() {
 
 setup_wsl() {
     setup_locale
-    update_system "$MACHINE"
+    update_system
     bootstrap_yay
-    install_packages "$MACHINE"
+    install_packages
     prompt_for_secrets
-    restore_from_restic "$MACHINE"
+    restore_from_restic
     setup_venvs
     setup_zsa_qmk_firmware
-    setup_services "$MACHINE"
+    setup_services
 }
 
 setup_pi() {
     hush_login
-    update_system "$MACHINE"
-    install_packages "$MACHINE"
-    install_optional_software "$MACHINE"
+    update_system
+    install_packages
+    install_optional_software
     prompt_for_secrets
-    restore_from_restic "$MACHINE"
+    restore_from_restic
     setup_uv
     setup_venvs
     setup_restic
-    setup_services "$MACHINE"
+    setup_services
 }
 
 setup_kali() {
     hush_login
-    update_system "$MACHINE"
-    install_packages "$MACHINE"
-    install_optional_software "$MACHINE"
+    update_system
+    install_packages
+    install_optional_software
     prompt_for_secrets
-    restore_from_restic "$MACHINE"
-    setup_services "$MACHINE"
+    restore_from_restic
+    setup_services
 }
 
 main() {
