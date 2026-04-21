@@ -4,6 +4,8 @@ Automates post-installation environment replication across WSL, Raspberry Pi, an
 
 ### Usage
 
+This script assumes a user account is setup and logged in, as well as curl being installed.
+
 ```sh
 bash <(curl -sSL https://raw.githubusercontent.com/jb49088/setup_script/master/setup)
 ```
@@ -18,10 +20,10 @@ Language                      files          blank        comment           code
 --------------------------------------------------------------------------------
 Bourne Again Shell                1             55             16            228
 Text                              4              0              0            165
-Markdown                          1             10              4             36
+Markdown                          1             11              4             37
 JSON                              1              0              0             33
 --------------------------------------------------------------------------------
-SUM:                              7             65             20            462
+SUM:                              7             66             20            463
 --------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->
