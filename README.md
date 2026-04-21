@@ -1,6 +1,6 @@
 ### setup_script
 
-Automates post-installation environment replication across WSL and Raspberry Pi. Restores packages, dotfiles, databases, services, and configuration from Restic backups.
+Automates post-installation environment replication across WSL, Raspberry Pi, and Kali Linux. Restores packages, dotfiles, databases, services, and configuration from Restic backups.
 
 ### Usage
 
