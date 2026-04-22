@@ -226,6 +226,7 @@ setup_services() {
         pi)
             sudo systemctl enable --now ssh
             sudo systemctl enable --now riven-sniper
+            sudo systemctl enable --now qbittorrent-nox
             $CURL https://install.pi-hole.net | bash
             setup_jellyfin
             ;;
