@@ -162,10 +162,10 @@ restore_from_restic() {
         "ssh" "wsl" "nftables" "services" "bash" "databases" "direnv" "dotfiles"
         "helix" "history" "kakoune" "nvim" "powershell" "python" "sql"
         "sqliterc" "vault" "yazi" "wt" "zellij" "zsh" "lightdm" "autostart"
-        "redshift"
+        "redshift" "wireguard"
     )
 
-    local sudo_tags=("wsl" "nftables" "services" "lightdm")
+    local sudo_tags=("wsl" "nftables" "services" "lightdm" "wireguard")
 
     # Loop over tags array and restore corresponding restic snapshots using sudo when necesary
     for tag in "${tags[@]}"; do
