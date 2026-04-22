@@ -52,6 +52,7 @@ scapy
 speedtest-cli
 strace
 sudo
+systemd-resolvconf
 tealdeer
 traceroute
 tree
@@ -59,6 +60,7 @@ tree-sitter-cli
 unzip
 uv
 wget
+wireguard-tools
 wl-clipboard
 words
 yay

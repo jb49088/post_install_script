@@ -19,11 +19,11 @@ bash <(curl -sSL https://raw.githubusercontent.com/jb49088/setup_script/master/s
 Language                      files          blank        comment           code
 --------------------------------------------------------------------------------
 Bourne Again Shell                1             55             16            228
-Text                              4              0              0            165
+Text                              4              0              0            169
 Markdown                          1             11              4             37
 JSON                              1              0              0             33
 --------------------------------------------------------------------------------
-SUM:                              7             66             20            463
+SUM:                              7             66             20            467
 --------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->
