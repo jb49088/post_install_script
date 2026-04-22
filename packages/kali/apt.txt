@@ -38,6 +38,7 @@ openvpn
 postgresql
 python3-venv
 redis-tools
+resolvconf
 responder
 restic
 ripgrep
@@ -52,5 +53,6 @@ usbutils
 wget
 whatweb
 whois
+wireguard-tools
 wordlists
 zsh-autosuggestions
