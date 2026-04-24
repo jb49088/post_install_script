@@ -69,3 +69,4 @@ yt-dlp
 zellij
 zsh
 zsh-autosuggestions
+zsh-vi-mode
