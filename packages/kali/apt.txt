@@ -55,4 +55,3 @@ whatweb
 whois
 wireguard-tools
 wordlists
-zsh-autosuggestions

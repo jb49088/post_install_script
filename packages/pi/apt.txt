@@ -39,4 +39,3 @@ wget
 wireguard-tools
 zip
 zsh
-zsh-autosuggestions
