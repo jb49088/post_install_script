@@ -12,6 +12,7 @@ cmatrix
 curl
 direnv
 fastfetch
+ffmpeg
 fzf
 git
 hping
