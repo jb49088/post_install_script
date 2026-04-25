@@ -115,9 +115,12 @@ install_yazi() {
 
 install_deskflow() {
     local version
+    # Extract version from json
     version=$($CURL \
         https://api.github.com/repos/deskflow/deskflow/releases/latest \
-        | grep '"tag_name"' | cut -d'"' -f4 | tr -d 'v') # Extract version from json
+        | grep '"tag_name"' \
+        | cut --delimiter='"' --fields=4 \
+        | tr --delete 'v')
 
     $CURL_FILE "/tmp/deskflow-${version}-debian-trixie-x86_64.deb" \
         "https://github.com/deskflow/deskflow/releases/latest/download/deskflow-${version}-debian-trixie-x86_64.deb"
@@ -217,6 +220,28 @@ setup_jellyfin() {
     $CURL https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 }
 
+setup_navidrome() {
+    sudo mkdir --parents "/srv/navidrome/music"
+    sudo chown -R "$USER:$USER" "/srv/navidrome"
+
+    local version
+    # Extract version from json
+    version=$($CURL \
+        https://api.github.com/repos/navidrome/navidrome/releases/latest \
+        | grep '"tag_name"' \
+        | cut --delimiter='"' --fields=4 \
+        | tr --delete 'v')
+
+    $CURL_FILE "/tmp/navidrome_${version}_linux_arm64.deb" \
+        "https://github.com/navidrome/navidrome/releases/download/v${version}/navidrome_${version}_linux_arm64.deb"
+
+    sudo apt install --yes "/tmp/navidrome_${version}_linux_arm64.deb"
+
+    rm "/tmp/navidrome_${version}_linux_arm64.deb"
+
+    sudo systemctl enable --now navidrome
+}
+
 create_restic_repo() {
     restic init --repo "$HOME/restic"
 }
@@ -234,6 +259,7 @@ setup_services() {
             sudo systemctl enable --now qbittorrent-nox
             $CURL https://install.pi-hole.net | bash
             setup_jellyfin
+            setup_navidrome
             ;;
         kali)
             sudo systemctl enable --now ssh
