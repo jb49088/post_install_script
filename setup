@@ -58,9 +58,14 @@ install_packages() {
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt \
             | xargs --no-run-if-empty yay -S --noconfirm ;;
 
-        pi) $CURL \
-            https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
-            | xargs --no-run-if-empty sudo apt install --yes ;;
+        pi)
+            $CURL \
+                https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
+                | xargs --no-run-if-empty sudo apt install --yes
+            $CURL \
+                https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/uv_tool.txt \
+                | xargs --no-run-if-empty uv tool install
+            ;;
 
         kali) $CURL \
             https://raw.githubusercontent.com/jb49088/setup_script/master/packages/kali/apt.txt \
