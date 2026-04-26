@@ -13,6 +13,7 @@ curl
 direnv
 fastfetch
 ffmpeg
+firefox
 fzf
 git
 hping
