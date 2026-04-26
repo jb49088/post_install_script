@@ -23,13 +23,13 @@ select_machine() {
 
 setup_locale() {
     # Enable en_US.UTF-8 UTF-8
-    sudo sed --in-place 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+    sudo sed --in-place 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' "/etc/locale.gen"
 
     # Compile en_US.UTF-8 UTF-8
     sudo locale-gen
 
     # Set en_US.UTF-8 UTF-8 as default locale
-    echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf
+    echo "LANG=en_US.UTF-8" | sudo tee "/etc/locale.conf"
 }
 
 hush_login() {
@@ -183,7 +183,7 @@ restore_from_restic() {
     done
 
     # Fix cache permissions after sudo restores
-    sudo chown -R "$USER:$USER" ~/.cache/restic
+    sudo chown -R "$USER:$USER" "$HOME/.cache/restic"
 }
 
 setup_tldr() {
@@ -220,7 +220,7 @@ setup_zsa_qmk_firmware() {
 
 setup_jellyfin() {
     sudo mkdir --parents /srv/jellyfin/{movies,shows,educational}
-    sudo chown -R "$USER:$USER" /srv/jellyfin
+    sudo chown -R "$USER:$USER" "/srv/jellyfin"
     sudo mount --options remount,size=3G /tmp # Installer needs >= 2gb free space in /tmp
     $CURL https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 }
@@ -317,7 +317,7 @@ main() {
     select_machine
 
     # Grant wheel group passwordless sudo
-    echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/nopasswd
+    echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee "/etc/sudoers.d/nopasswd"
 
     case "$MACHINE" in
         wsl) setup_wsl ;;
@@ -326,7 +326,7 @@ main() {
     esac
 
     # Revoke wheel group passwordless sudo
-    sudo rm /etc/sudoers.d/nopasswd
+    sudo rm "/etc/sudoers.d/nopasswd"
 
     if command -v zsh >/dev/null; then
         chsh --shell "$(command -v zsh)"
