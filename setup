@@ -272,7 +272,7 @@ setup_services() {
     esac
 }
 
-disable_wifi_powersaving() {
+configure_wifi() {
     # Disable deep power saving on driver load
     echo "options rtw88_core disable_lps_deep=y" \
         | sudo tee "/etc/modprobe.d/rtw88.conf"
@@ -284,6 +284,12 @@ disable_wifi_powersaving() {
     # Tell NetworkManager to never re-enable power saving
     echo -e "[connection]\nwifi.powersave = 2" \
         | sudo tee "/etc/NetworkManager/conf.d/disable-wifi-powersaver.conf"
+
+    # Connect to network as soon as kernel sees wlan0
+    local ssid
+    read -r -p "Enter WiFi SSID for auto-connection: " ssid
+    echo "ACTION==\"add\", SUBSYSTEM==\"net\", KERNEL==\"wlan0\", RUN+=\"/usr/bin/nmcli connection up $ssid\"" \
+        | sudo tee /etc/udev/rules.d/80-wifi-autoconnect.rules
 }
 
 setup_wsl() {
@@ -320,7 +326,7 @@ setup_kali() {
     prompt_for_secrets
     restore_from_restic
     setup_services
-    disable_wifi_powersaving
+    configure_wifi
 }
 
 main() {
