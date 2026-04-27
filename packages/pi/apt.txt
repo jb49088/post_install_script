@@ -32,6 +32,7 @@ sqlite3
 ssh
 strace
 tcpdump
+tealdeer
 traceroute
 tree-sitter-cli
 unzip

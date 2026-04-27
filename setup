@@ -190,6 +190,11 @@ setup_tldr() {
     tldr --update
 }
 
+decompress_rockyou() {
+    [[ -f "/usr/share/wordlists/rockyou.txt.gz" ]] \
+        && sudo gzip --decompress "/usr/share/wordlists/rockyou.txt.gz"
+}
+
 setup_uv() {
     $CURL https://astral.sh/uv/install.sh | sh
     export PATH="$HOME/.local/bin:$PATH" # Add uv to PATH for script duration
@@ -308,6 +313,7 @@ setup_wsl() {
     install_packages
     prompt_for_secrets
     restore_from_restic
+    setup_tldr
     setup_venvs
     setup_zsa_qmk_firmware
     setup_services
@@ -334,6 +340,8 @@ setup_kali() {
     install_optional_software
     prompt_for_secrets
     restore_from_restic
+    setup_tldr
+    decompress_rockyou
     setup_services
     configure_wifi
 }
