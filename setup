@@ -214,6 +214,7 @@ setup_venvs() {
 
 setup_zsa_qmk_firmware() {
     git clone https://github.com/zsa/qmk_firmware.git "$HOME/zsa_qmk_firmware"
+    mkdir --parents "$HOME/zsa_qmk_firmware/keyboards/zsa/voyager/keymaps/qgmlwy"
     # Pull in nested dependencies declared in .gitmodules
     (cd "$HOME/zsa_qmk_firmware" && git submodule update --init --recursive)
 }
