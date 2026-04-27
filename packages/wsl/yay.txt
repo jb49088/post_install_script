@@ -63,6 +63,7 @@ unzip
 uv
 wget
 wireguard-tools
+wireless-tools
 wl-clipboard
 words
 yay

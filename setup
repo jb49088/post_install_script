@@ -272,6 +272,20 @@ setup_services() {
     esac
 }
 
+disable_wifi_powersaving() {
+    # Disable deep power saving on driver load
+    echo "options rtw88_core disable_lps_deep=y" \
+        | sudo tee "/etc/modprobe.d/rtw88.conf"
+
+    # Reload driver to take effect immediately
+    sudo modprobe -r rtw88_8821cu rtw88_8821c rtw88_usb rtw88_core \
+        && sudo modprobe rtw88_8821cu
+
+    # Tell NetworkManager to never re-enable power saving
+    echo -e "[connection]\nwifi.powersave = 2" \
+        | sudo tee "/etc/NetworkManager/conf.d/disable-wifi-powersaver.conf"
+}
+
 setup_wsl() {
     setup_locale
     update_system
@@ -306,6 +320,7 @@ setup_kali() {
     prompt_for_secrets
     restore_from_restic
     setup_services
+    disable_wifi_powersaving
 }
 
 main() {
