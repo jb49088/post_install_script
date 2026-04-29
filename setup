@@ -234,7 +234,7 @@ setup_zsa_qmk_firmware() {
 
 setup_jellyfin() {
     sudo mkdir --parents /srv/jellyfin/{movies,shows,educational}
-    sudo chown -R "$USER:$USER" "/srv/jellyfin"
+    sudo chown --recursive "$USER:$USER" "/srv/jellyfin"
     sudo mount --options remount,size=3G /tmp # Installer needs >= 2gb free space in /tmp
     $CURL https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 }
@@ -292,7 +292,7 @@ configure_wifi() {
         | sudo tee "/etc/modprobe.d/rtw88.conf"
 
     # Reload driver to take effect immediately
-    sudo modprobe -r rtw88_8821cu rtw88_8821c rtw88_usb rtw88_core \
+    sudo modprobe --remove rtw88_8821cu rtw88_8821c rtw88_usb rtw88_core \
         && sudo modprobe rtw88_8821cu
 
     # Tell NetworkManager to never re-enable power saving
