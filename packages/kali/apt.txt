@@ -50,6 +50,7 @@ tealdeer
 tree-sitter-cli
 unzip
 usbutils
+webshells
 wget
 whatweb
 whois
