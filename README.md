@@ -19,11 +19,10 @@ bash <(curl -sSL https://raw.githubusercontent.com/jb49088/setup_script/master/s
 Language                      files          blank        comment           code
 --------------------------------------------------------------------------------
 Bourne Again Shell                1             70             23            283
-Text                              3              0              0            174
+Text                              3              0              0            175
 Markdown                          1             11              4             36
-JSON                              1              0              0             33
 --------------------------------------------------------------------------------
-SUM:                              6             81             27            526
+SUM:                              5             81             27            494
 --------------------------------------------------------------------------------
 ```
 <!-- CODE_STATISTICS_END -->
@@ -39,13 +38,11 @@ setup_script
 │   │   └── apt.txt
 │   ├── pi
 │   │   └── apt.txt
-│   ├── windows
-│   │   └── winget.json
 │   └── wsl
 │       └── yay.txt
 ├── README.md
 └── setup
 
-6 directories, 6 files
+5 directories, 5 files
 ```
 <!-- PROJECT_STRUCTURE_END -->

@@ -1,4 +1,5 @@
 awscli
+bat
 btop
 burpsuite
 cargo
