@@ -22,6 +22,7 @@ kali-wallpapers-2023
 kali-wallpapers-2024
 kali-wallpapers-2025
 kali-wallpapers-2026
+libimage-exiftool-perl
 lsof
 luarocks
 make
