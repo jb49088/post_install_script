@@ -9,6 +9,7 @@ clang
 cloc
 cmake
 cmatrix
+cmus
 curl
 direnv
 fastfetch
