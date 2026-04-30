@@ -37,6 +37,7 @@ npm
 openssh-server
 openvpn
 postgresql
+proxychains4
 python3-venv
 redis-tools
 resolvconf
