@@ -286,25 +286,9 @@ setup_services() {
     esac
 }
 
-configure_wifi() {
-    # Disable deep power saving on driver load
-    echo "options rtw88_core disable_lps_deep=1" \
-        | sudo tee "/etc/modprobe.d/rtw88.conf"
-
-    # Reload driver to take effect immediately
-    sudo modprobe --remove rtw88_8821cu rtw88_8821c rtw88_usb rtw88_core \
-        && sudo modprobe rtw88_8821cu
-
-    # Tell NetworkManager to never re-enable power saving
+disable_wifi_powersaving() {
     echo -e "[connection]\nwifi.powersave = 2" \
         | sudo tee "/etc/NetworkManager/conf.d/disable-wifi-powersaving.conf"
-
-    local ssid
-    read -r -p "Enter WiFi SSID for auto-connection: " ssid
-
-    # Connect to network as soon as kernel sees wlan0
-    echo "ACTION==\"add\", SUBSYSTEM==\"net\", KERNEL==\"wlan0\", RUN+=\"/usr/bin/nmcli connection up $ssid\"" \
-        | sudo tee /etc/udev/rules.d/80-wifi-autoconnect.rules
 }
 
 setup_wsl() {
@@ -344,7 +328,7 @@ setup_kali() {
     setup_tldr
     decompress_rockyou
     setup_services
-    configure_wifi
+    disable_wifi_powersaving
 }
 
 main() {
