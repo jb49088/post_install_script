@@ -29,6 +29,8 @@ resolvconf
 restic
 ripgrep
 rsync
+speedtest-cli
+speedtest-cli
 sqlite3
 ssh
 strace
