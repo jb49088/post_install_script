@@ -14,6 +14,7 @@ hashcat
 hping3
 htop
 hydra
+impacket-scripts
 iw
 john
 kali-wallpapers-2019.4
