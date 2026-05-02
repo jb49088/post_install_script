@@ -31,6 +31,7 @@ ncdu
 neovim
 net-tools
 nftables
+nmap
 nodejs
 noto-fonts-emoji
 npm
