@@ -55,20 +55,17 @@ install_packages() {
     case "$MACHINE" in
         # Get list of packages and pass it into corresponding package manager with xargs
         wsl) $CURL \
-            https://raw.githubusercontent.com/jb49088/setup_script/master/packages/wsl/yay.txt \
+            https://raw.githubusercontent.com/jb49088/packages/master/wsl/yay.txt \
             | xargs --no-run-if-empty yay -S --noconfirm ;;
 
         pi)
             $CURL \
-                https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/apt.txt \
+                https://raw.githubusercontent.com/jb49088/packages/master/pi/apt.txt \
                 | xargs --no-run-if-empty sudo apt install --yes
-            $CURL \
-                https://raw.githubusercontent.com/jb49088/setup_script/master/packages/pi/uv_tool.txt \
-                | xargs --no-run-if-empty uv tool install
             ;;
 
         kali) $CURL \
-            https://raw.githubusercontent.com/jb49088/setup_script/master/packages/kali/apt.txt \
+            https://raw.githubusercontent.com/jb49088/packages/master/kali/apt.txt \
             | xargs --no-run-if-empty sudo apt install --yes ;;
     esac
 }
