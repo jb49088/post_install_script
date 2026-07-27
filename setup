@@ -412,6 +412,14 @@ setup_services() {
     esac
 }
 
+disable_systemd_resolved() {
+    # systemd-resolved overwrites the /etc/resolv.conf file getting rid of our custom DNS
+    # By default systemd-resolved has a symlink at /etc/resolv.conf but restore_from_restic()
+    # should have overwritten it with the good backed up file by the time this function is called
+    sudo systemctl disable --now systemd-resolved
+    sudo systemctl mask systemd-resolved
+}
+
 disable_wifi_powersaving() {
     echo -e "[connection]\nwifi.powersave = 2" \
         | sudo tee "/etc/NetworkManager/conf.d/disable-wifi-powersaving.conf"
@@ -431,6 +439,7 @@ setup_wsl() {
     setup_venvs
     setup_zsa_qmk_firmware
     setup_services
+    disable_systemd_resolved
 }
 
 setup_pi() {
